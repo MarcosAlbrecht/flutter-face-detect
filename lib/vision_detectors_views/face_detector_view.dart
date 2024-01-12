@@ -22,6 +22,7 @@ class _FaceDetectorViewState extends State<FaceDetectorView> {
   CustomPaint? _customPaint;
   String? _text;
   var _cameraLensDirection = CameraLensDirection.front;
+  CameraImage? cameraIamge;
 
   @override
   void dispose() {
@@ -39,6 +40,7 @@ class _FaceDetectorViewState extends State<FaceDetectorView> {
       onImage: _processImage,
       initialCameraLensDirection: _cameraLensDirection,
       onCameraLensDirectionChanged: (value) => _cameraLensDirection = value,
+      cameraImage: cameraIamge,
     );
   }
 
@@ -57,6 +59,7 @@ class _FaceDetectorViewState extends State<FaceDetectorView> {
         inputImage.metadata!.size,
         inputImage.metadata!.rotation,
         _cameraLensDirection,
+        cameraIamge,
       );
       _customPaint = CustomPaint(painter: painter);
     } else {

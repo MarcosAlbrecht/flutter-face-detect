@@ -6,15 +6,16 @@ import 'package:flutter/services.dart';
 import 'package:google_mlkit_commons/google_mlkit_commons.dart';
 
 class CameraView extends StatefulWidget {
-  CameraView(
-      {Key? key,
-      required this.customPaint,
-      required this.onImage,
-      this.onCameraFeedReady,
-      this.onDetectorViewModeChanged,
-      this.onCameraLensDirectionChanged,
-      this.initialCameraLensDirection = CameraLensDirection.back})
-      : super(key: key);
+  CameraView({
+    Key? key,
+    required this.customPaint,
+    required this.onImage,
+    this.onCameraFeedReady,
+    this.onDetectorViewModeChanged,
+    this.onCameraLensDirectionChanged,
+    this.initialCameraLensDirection = CameraLensDirection.back,
+    this.cameraImage,
+  }) : super(key: key);
 
   final CustomPaint? customPaint;
   final Function(InputImage inputImage) onImage;
@@ -22,6 +23,7 @@ class CameraView extends StatefulWidget {
   final VoidCallback? onDetectorViewModeChanged;
   final Function(CameraLensDirection direction)? onCameraLensDirectionChanged;
   final CameraLensDirection initialCameraLensDirection;
+  CameraImage? cameraImage;
 
   @override
   State<CameraView> createState() => _CameraViewState();
@@ -38,6 +40,7 @@ class _CameraViewState extends State<CameraView> {
   double _maxAvailableExposureOffset = 0.0;
   double _currentExposureOffset = 0.0;
   bool _changingCameraLens = false;
+  CameraImage? frame;
 
   @override
   void initState() {
@@ -312,6 +315,7 @@ class _CameraViewState extends State<CameraView> {
   }
 
   void _processCameraImage(CameraImage image) {
+    widget.cameraImage = image;
     final inputImage = _inputImageFromCameraImage(image);
     if (inputImage == null) return;
     widget.onImage(inputImage);
